@@ -5,5 +5,4 @@ void autoconnectSetup(){
   WiFiManager wifiManager;
   wifiManager.autoConnect("sis wifi");
   Serial.println("Connected to WiFi " + WiFi.SSID());
-  Serial.println("IP: " + WiFi.localIP().toString());
 }

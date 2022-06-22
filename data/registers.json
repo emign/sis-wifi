@@ -1,0 +1,126 @@
+{
+    "register": [
+      {
+        "address": 1000,
+        "rw": "rw",
+        "default": null,
+        "description": "Actual configured amps value (from reg 2002 to 80A)"
+      },
+      {
+        "address": 1001,
+        "rw": "r",
+        "default": null,
+        "description": "Actual amps value output"
+      },
+      {
+        "address": 1002,
+        "rw": "r",
+        "default": null,
+        "description": "Vehicle state: 1: ready, 2: EV is present, 3: charging, 4: charging with ventilation, 5: failure (e.g. diode check, RCD failure)"
+      },
+      {
+        "address": 1003,
+        "rw": "r",
+        "default": null,
+        "description": "6 / 13 / 20 / 32 63 / 80 A Maximum current limitation according to a cable based on PP resistor detection"
+      },
+      {
+        "address": 1004,
+        "rw": "rw",
+        "default": null,
+        "description": "bit0: turn off charging now, bit1: run selftest and RCD test procedure (approx 30s), bit2: clear RCD error, bit3 to bit15: not used"
+      },
+      {
+        "address": 1005,
+        "rw": "r",
+        "default": null,
+        "description": "Firmware revision"
+      },
+      {
+        "address": 1006,
+        "rw": "r",
+        "default": null,
+        "description": "EVSE state, 1: steady 12V, 2: PW is being generated (only if 1000 >= 6), 3: OFF, steady 12V"
+      },
+      {
+        "address": 1007,
+        "rw": "r",
+        "default": null,
+        "description": "EVSE status and fails bit0: relay on/off, bit1: diode check fail, bit2: vent required fail, bit3: waiting for pilot release (error recovery delay), bit4: RCD check error, bit5:, bit6-bit15: reserved"
+      },
+      {
+        "address": 1008,
+        "rw": "r",
+        "default": null,
+        "description": "Error timeout if > 0 then waiting for automatic clear"
+      },
+      {
+        "address": 1009,
+        "rw": "r",
+        "default": null,
+        "description": "Selftest timeout if > 0 then waiting for a selftest to complete"
+      },
+      {
+        "address": 1010,
+        "rw": "r",
+        "default": null,
+        "description": "Reserved, debug"
+      },
+      {
+        "address": 2000,
+        "rw": "rw",
+        "default": 32,
+        "description": "Default amps value after boot (max 80A, min 6A)"
+      },
+      {
+        "address": 2001,
+        "rw": "rw",
+        "default": 0,
+        "description": "Function of PROG PIN 4 + 5, slave address (default 0: current limit or boost functions available), 0: analog inputs enabled, > 0: MODBUS communication enabled. This value also means the slave address."
+      },
+      {
+        "address": 2002,
+        "rw": "rw",
+        "default": 5,
+        "description": "Minimum amps value, allowed 0 13. if set to 0 the EVSE will completely stop charging during analog input mode (2003 = 0) and AN = 0V"
+      },
+      {
+        "address": 2003,
+        "rw": "rw",
+        "default": 1,
+        "description": "Analog input config: 0: analog input current regulation, input 0 5V corresponds to the range: minimum amps--> default amps note that there is a weak pullup resistor enabled for this input (no input connected--> 5V), 1: each blink 1 amp step (default), starts from 0, 2: each blink 2 amps step, starts from 0, 3: each blink 3 amps step, starts from 0, 10: each blink 10 amps step, starts from 0, 11: mapping table: registers 2010 2017, 1x blink = value from 2010, 2x blink = value from 2011"
+      },
+      {
+        "address": 2004,
+        "rw": "rw",
+        "default": 0,
+        "description": "Amps settings after power on (applies only to a changes made by the button), whether to save amps settings to eeprom each time it changes or not. 0 do not save amps value (default) save amps value to register 2000 every time it changes"
+      },
+      {
+        "address": 2005,
+        "rw": "rw",
+        "default": 1,
+        "description": "bit0: Enable button for current change (no sense when 2003 = 0). 0: disabled. 1: enabled (default). bit1: Stop charging when button pressed. 0: disabled (default). 1: enabled charging will automatically start after you manually unplug and plug the cable to the vehicle. bit2: Pilot ready state LED 0: blinks once (default) 1: is always ON bit3: enable charging on vehicle status D (ventilation required) 0: vehicle status D charging is disabled 1: vehicle status D charging iS enabled (default).bit4: enable RCD feedback on MCLR pin (pin 4) 0: disabled, no RCD connected (default) 1: enabled bit5: auto clear RCD error 0: disabled (default, power cycle needed)"
+      }
+    ],
+    "1:enabled (clear RCD error after <30s min timeout)": {},
+    "bit6:AN pullup (rev16 and later)": {},
+    "0:AN internal pull-up enabled (default)": {},
+    "1:AN internal pull-up disabled": {},
+    "bit7:PWM debug bit (rev17 and later)": {},
+    "0:PW debug disabled (default)": {},
+    "1:PWM debug enable": {},
+    "bit8:error LED routing to AN out (rev17 and later)": {},
+    "0:disabled (default)": {},
+    "1:enabled": {},
+    "bit9:pilot auto recover delay (rev17 and later)": {},
+    "0:disabled": {},
+    "1:enabled (default)": {},
+    "bit10-11:reserved": {},
+    "bit12:enable startup delay": {},
+    "bit13:disable EVSE after charge (write 8192)": {},
+    "bit14:disable EVSE (write 16384)": {},
+    "bit15:enable bootloader mode (write 32768)": {},
+    "NOTE:f both bit0 and bit1 are enabled then \"interrupt": {},
+    "charging\"will have higher priority, when charging": {}
+  }
