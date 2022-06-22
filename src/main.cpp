@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <wifi.h>
-#include <autoconnect.h>   
+#include <autoconnect.h> 
+#include <webserver.h>  
 
 
 void setup() {
@@ -8,10 +9,11 @@ void setup() {
   Serial.println("Starting...");  
   autoconnectSetup();
   wifiSetup();
+  webserverSetup();
 
 }
 
 void loop() {
-  wifiLoop();
+ 
  
 }
