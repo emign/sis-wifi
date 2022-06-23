@@ -24,27 +24,22 @@ void webserverSetup(){
     }
     String fileContent = file.readString();
     file.close();
-    DynamicJsonDocument registers(8192);
-    DeserializationError error =  deserializeJson(registers, fileContent);
+    DynamicJsonDocument doc(8192);
+
+    DeserializationError error = deserializeJson(doc, input);
+
     if (error) {
-        Serial.print("deserializeJson() failed: ");
-        Serial.println(error.c_str());
+        Serial.print(F("deserializeJson() failed: "));
+        Serial.println(error.f_str());
         return;
     }
-    JsonArray registers_json = registers["register"].as<JsonArray>();
-    for (JsonObject register_item : registers["register"].as<JsonArray>()) {
-        int register_item_address = register_item["address"]; // 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, ...
-        const char* register_item_rw = register_item["rw"]; // "rw", "r", "r", "r", "rw", "r", "r", "r", "r", ...
-        int register_item_default = register_item["default"]; // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 5, 1, ...
-        const char* register_item_description = register_item["description"]; // "Actual configured amps value ...
 
-        String currentRegisterIn = "Register: " + String(register_item_address) + " " + register_item_rw + " " + String(register_item_default) + " " + register_item_description;
+    for (JsonPair register_item : doc["registers"].as<JsonObject>()) {
+        const char* register_key = register_item.key().c_str(); // "1000", "1001", "1002", "1003", "1004", "1005", ...
 
-        const char* url = "/register/write/" + register_item_address;      
-
-       
-
-        insert_server_handlers();
+        const char* register_value_rw = register_item.value()["rw"]; // "rw", "r", "r", "r", "rw", "r", "r", "r", ...
+        int register_value_default = register_item.value()["default"]; // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 5, ...
+        const char* register_value_description = register_item.value()["description"]; // "Actual configured amps ...
 
     }
    
@@ -63,11 +58,6 @@ void insert_server_handlers(){
     server.on("/register/rw/1000", HTTP_GET, [](AsyncWebServerRequest *request) {
 		//request->send(LittleFS, "/index.html", "text/html");
         request->send(200, "text/plain", "TEDKDHJGKDHGK");
-
-     
-
-       
-
 	});
 
      //Actual amps value output 
