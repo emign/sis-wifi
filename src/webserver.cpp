@@ -7,7 +7,7 @@
 #define WIFI_MANAGER_USE_ASYNC_WEB_SERVER
 
 static AsyncWebServer server(80);
-
+void insert_server_handlers();
 
 
 void webserverSetup(){
@@ -41,10 +41,10 @@ void webserverSetup(){
 
         const char* url = "/register/write/" + register_item_address;      
 
-        server.on(url, HTTP_GET, [](AsyncWebServerRequest *request) {
-		//request->send(LittleFS, "/index.html", "text/html");
-        request->send(200, "text/plain", "TEDKDHJGKDHGK");
-	});
+       
+
+        insert_server_handlers();
+
     }
    
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -54,4 +54,121 @@ void webserverSetup(){
   
 
     server.begin();
+}
+
+void insert_server_handlers(){
+  
+
+    //Actual configured amps value (from reg 2002 to 80A)
+    server.on("/register/rw/1000", HTTP_GET, [](AsyncWebServerRequest *request) {
+		//request->send(LittleFS, "/index.html", "text/html");
+        request->send(200, "text/plain", "TEDKDHJGKDHGK");
+	});
+
+     //Actual amps value output 
+    server.on("/register/r/1001", HTTP_GET, [](AsyncWebServerRequest *request) {
+		//request->send(LittleFS, "/index.html", "text/html");
+        request->send(200, "text/plain", "TEDKDHJGKDHGK");
+	});
+
+    // Vehicle state
+    server.on("/register/r/1002", HTTP_GET, [](AsyncWebServerRequest *request) {
+		//request->send(LittleFS, "/index.html", "text/html");
+        request->send(200, "text/plain", "TEDKDHJGKDHGK");
+	});
+
+    // Maximum current limitation according to a cable based on PP resistor detection. 
+    server.on("/register/r/1003", HTTP_GET, [](AsyncWebServerRequest *request) {
+		//request->send(LittleFS, "/index.html", "text/html");
+        request->send(200, "text/plain", "TEDKDHJGKDHGK");
+	});
+
+    // bit0: turn off charging now
+    // bit1: run selftest and RCD test procedure (approx 30s)
+    // bit2: clear RCD error
+    // bit3 bit15: not used
+    server.on("/register/rw/1004", HTTP_GET, [](AsyncWebServerRequest *request) {
+		//request->send(LittleFS, "/index.html", "text/html");
+        request->send(200, "text/plain", "TEDKDHJGKDHGK");
+	});
+
+    // Firmware revision
+    server.on("/register/r/1005", HTTP_GET, [](AsyncWebServerRequest *request) {
+		//request->send(LittleFS, "/index.html", "text/html");
+        request->send(200, "text/plain", "TEDKDHJGKDHGK");
+	});
+
+    // EVSE state
+    server.on("/register/r/1006", HTTP_GET, [](AsyncWebServerRequest *request) {
+		//request->send(LittleFS, "/index.html", "text/html");
+        request->send(200, "text/plain", "TEDKDHJGKDHGK");
+	});
+
+    // EVSE status and fails
+    server.on("/register/r/1007", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    // Error timeout
+    server.on("/register/r/1008", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    // Selftest timeout
+    server.on("/register/r/1009", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    // Reserved debug
+    server.on("/register/r/1010", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    // Default amps value after boot (max 80A, min 6A)
+    server.on("/register/rw/2000", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    // Function of PROG PIN 4 + 5, slave address
+    server.on("/register/rw/2001", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    // Minimum amps value, allowed 0 13
+    server.on("/register/rw/2002", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    // Analog input config
+    server.on("/register/rw/2003", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps settings after power on
+    server.on("/register/rw/2004", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Miscellaneous settings
+    server.on("/register/rw/2005", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+     //RFU: Current sharing mode is active
+    server.on("/register/rw/2006", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+ 
 }
