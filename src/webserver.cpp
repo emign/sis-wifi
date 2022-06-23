@@ -31,8 +31,8 @@ void webserverSetup(){
         return;
     }
     
-    for (JsonPair register_item : doc["registers"].as<JsonObject>()) {         
-
+    for (JsonPair register_item : doc["registers"].as<JsonObject>()) {       
+        // Create /register?nr=1000 like webhook and generate a JSON answer
         server.on("/register", HTTP_GET, [](AsyncWebServerRequest *request) {     
             if (request->args() == 0)
                 return request->send(400, "text/plain", F("ERROR: Bad or no arguments"));      
