@@ -1,178 +1,149 @@
 {
-    "register": [
-      {
-        "address": 1000,
-        "rw": "rw",
-        "default": null,
-        "description": "Actual configured amps value (from reg 2002 to 80A)"
-      },
-      {
-        "address": 1001,
-        "rw": "r",
-        "default": null,
-        "description": "Actual amps value output"
-      },
-      {
-        "address": 1002,
-        "rw": "r",
-        "default": null,
-        "description": "Vehicle state: \\n1: ready\\n2: EV is present\\n3: charging\\n4: charging with ventilation\\n5: failure (e.g. diode check, RCD failure)"
-      },
-      {
-        "address": 1003,
-        "rw": "r",
-        "default": null,
-        "description": "6 / 13 / 20 / 32 63 / 80 A\\nMaximum current limitation according to a cable based on PP resistor detection"
-      },
-      {
-        "address": 1004,
-        "rw": "rw",
-        "default": null,
-        "description": "bit0: turn off charging now\\nbit1: run selftest and RCD test procedure (approx 30s)\\nbit2: clear RCD error\\nbit3 - bit15: not used"
-      },
-      {
-        "address": 1005,
-        "rw": "r",
-        "default": null,
-        "description": "Firmware revision"
-      },
-      {
-        "address": 1006,
-        "rw": "r",
-        "default": null,
-        "description": "EVSE state\\n1: steady 12V\\n2: PW is being generated (only if 1000 >= 6)\\n3: OFF, steady 12V"
-      },
-      {
-        "address": 1007,
-        "rw": "r",
-        "default": null,
-        "description": "EVSE status and fails\\nbit0: relay on/off\\nbit1: diode check fail\\nbit2: vent required fail\\nbit3: waiting for pilot release (error recovery delay)\\nbit4: RCD check error\\nbit5:\\nbit6-bit15: reserved"
-      },
-      {
-        "address": 1008,
-        "rw": "r",
-        "default": null,
-        "description": "Error timeout\\nif > 0 then waiting for automatic clear"
-      },
-      {
-        "address": 1009,
-        "rw": "r",
-        "default": null,
-        "description": "Selftest timeout\\nif > 0 then waiting for a selftest to complete"
-      },
-      {
-        "address": 1010,
-        "rw": "r",
-        "default": null,
-        "description": "Reserved, debug"
-      },
-      {
-        "address": 2000,
-        "rw": "rw",
-        "default": 32,
-        "description": "Default amps value after boot (max 80A, min 6A)"
-      },
-      {
-        "address": 2001,
-        "rw": "rw",
-        "default": 0,
-        "description": "Function of PROG PIN 4 + 5, slave address\\n(default 0: current limit or boost functions available)\\n0: analog inputs enabled\\n> 0: MODBUS communication enabled\\nThis value also means the slave address."
-      },
-      {
-        "address": 2002,
-        "rw": "rw",
-        "default": 5,
-        "description": "Minimum amps value, allowed 0-13\\nif set to 0 the EVSE will completely stop charging during analog input mode (2003 = 0) and AN = 0V"
-      },
-      {
-        "address": 2003,
-        "rw": "rw",
-        "default": 1,
-        "description": "Analog input config\\n0: analog input current regulation, input 0 5V corresponds to the range: minimum amps--> default amps note that there is a weak pullup resistor enabled for this input (no input connected--> 5V)\\n\\n1: each blink 1 amp step (default), starts from 0\\n2: each blink 2 amps step, starts from 0\\n3: each blink 3 amps step, starts from 0\\n...\\n10: each blink 10 amps step, starts from 0\\n11: mapping table: registers 2010 2017, 1x blink = value from 2010, 2x blink = value from 2011"
-      },
-      {
-        "address": 2004,
-        "rw": "rw",
-        "default": 0,
-        "description": "Amps settings after power on (applies only to a changes made by the button), whether to save amps settings to eeprom each time it changes or not\\n0: do not save amps value (default)\\n1: save amps value to register 2000 every time it changes"
-      },
-      {
-        "address": 2005,
-        "rw": "rw",
-        "default": 1,
-        "description": "bit0: Enable button for current change (no sense when 2003 = 0)\\n0: disabled\\n1: enabled (default)\\nbit1: Stop charging when button pressed\\n0: disabled (default)\\n1: enabled charging will automatically start after you manually unplug and plug the cable to the vehicle\\nbit2: Pilot ready state LED\\n0: blinks once (default)\\n1: is always ON\\nbit3: enable charging on vehicle status D (ventilation required)\\n0: vehicle status D charging is disabled\\n1: vehicle status D charging iS enabled (default)\\nbit4: enable RCD feedback on MCLR pin (pin 4)\\n0: disabled, no RCD connected (default)\\n1: enabled\\nbit5: auto clear RCD error\\n0: disabled (default, power cycle needed)\\n1: enabled (clear RCD error after <30s min timeout)\\nbit6: AN pullup (rev16 and later)\\n0: AN internal pull-up enabled (default)\\n1: AN internal pull-up disabled\\nbit7: PWM debug bit (rev17 and later)\\n0: PWM debug disabled (default)\\n1: PW debug enable\\nbit8: error LED routing to AN out (rev17 and later)\\n0: disabled (default)\\n1: enabled\\nbit9: pilot auto recover delay (rev17 and later)\\n0: disabled\\n1: enabled (default)\\nbit10-11: reserved\\nbit12: enable startup delay\\nbit13: disable EVSE after charge (write 8192)\\nbit14: disable EVSE (write 16384)\\nbit15: enable bootloader mode (write 32768)"
-      },
-      {
-        "address": 2006,
-        "rw": "rw",
-        "default": 0,
-        "description": "RFU: Current sharing mode is active)\\n(two or more EVSEs connected to a single breaker))\\n0 charging current is half of the default current)\\namps > 0: this amps value will be used"
-      },
-      {
-        "address": 2007,
-        "rw": "rw",
-        "default": 0,
-        "description": "PP detection\\n0: PP detection enabled (default)\\nvalue > O: detection disabled, fixed PP limit entered [A]"
-      },
-      {
-        "address": 2008,
-        "rw": "rw",
-        "default": null,
-        "description": "Reserved"
-      },
-      {
-        "address": 2009,
-        "rw": "r",
-        "default": null,
-        "description": "Bootloader firmware revision"
-      },
-      {
-        "address": 2010,
-        "rw": "rw",
-        "default": 6,
-        "description": "Amps value 1"
-      },
-      {
-        "address": 2011,
-        "rw": "rw",
-        "default": 10,
-        "description": "Amps value 2"
-      },
-      {
-        "address": 2012,
-        "rw": "rw",
-        "default": 16,
-        "description": "Amps value 3"
-      },
-      {
-        "address": 2013,
-        "rw": "rw",
-        "default": 25,
-        "description": "Amps value 4"
-      },
-      {
-        "address": 2014,
-        "rw": "rw",
-        "default": 32,
-        "description": "Amps value 5"
-      },
-      {
-        "address": 2015,
-        "rw": "rw",
-        "default": 48,
-        "description": "Amps value 6"
-      },
-      {
-        "address": 2016,
-        "rw": "rw",
-        "default": 63,
-        "description": "Amps value 7"
-      },
-      {
-        "address": 2017,
-        "rw": "rw",
-        "default": 80,
-        "description": "Amps value 8"
-      }
-    ]  
+  "registers": {
+    "1000": {
+      "rw": "rw",
+      "default": null,
+      "description": "Actual configured amps value (from reg 2002 to 80A)"
+    },
+    "1001": {
+      "rw": "r",
+      "default": null,
+      "description": "Actual amps value output"
+    },
+    "1002": {
+      "rw": "r",
+      "default": null,
+      "description": "Vehicle state: \\n1: ready\\n2: EV is present\\n3: charging\\n4: charging with ventilation\\n5: failure (e.g. diode check, RCD failure)"
+    },
+    "1003": {
+      "rw": "r",
+      "default": null,
+      "description": "6 / 13 / 20 / 32 63 / 80 A\\nMaximum current limitation according to a cable based on PP resistor detection"
+    },
+    "1004": {
+      "rw": "rw",
+      "default": null,
+      "description": "bit0: turn off charging now\\nbit1: run selftest and RCD test procedure (approx 30s)\\nbit2: clear RCD error\\nbit3 - bit15: not used"
+    },
+    "1005": {
+      "rw": "r",
+      "default": null,
+      "description": "Firmware revision"
+    },
+    "1006": {
+      "rw": "r",
+      "default": null,
+      "description": "EVSE state\\n1: steady 12V\\n2: PW is being generated (only if 1000 >= 6)\\n3: OFF, steady 12V"
+    },
+    "1007": {
+      "rw": "r",
+      "default": null,
+      "description": "EVSE status and fails\\nbit0: relay on/off\\nbit1: diode check fail\\nbit2: vent required fail\\nbit3: waiting for pilot release (error recovery delay)\\nbit4: RCD check error\\nbit5:\\nbit6-bit15: reserved"
+    },
+    "1008": {
+      "rw": "r",
+      "default": null,
+      "description": "Error timeout\\nif > 0 then waiting for automatic clear"
+    },
+    "1009": {
+      "rw": "r",
+      "default": null,
+      "description": "Selftest timeout\\nif > 0 then waiting for a selftest to complete"
+    },
+    "1010": {
+      "rw": "r",
+      "default": null,
+      "description": "Reserved, debug"
+    },
+    "2000": {
+      "rw": "rw",
+      "default": 32,
+      "description": "Default amps value after boot (max 80A, min 6A)"
+    },
+    "2001": {
+      "rw": "rw",
+      "default": 0,
+      "description": "Function of PROG PIN 4 + 5, slave address\\n(default 0: current limit or boost functions available)\\n0: analog inputs enabled\\n> 0: MODBUS communication enabled\\nThis value also means the slave address."
+    },
+    "2002": {
+      "rw": "rw",
+      "default": 5,
+      "description": "Minimum amps value, allowed 0-13\\nif set to 0 the EVSE will completely stop charging during analog input mode (2003 = 0) and AN = 0V"
+    },
+    "2003": {
+      "rw": "rw",
+      "default": 1,
+      "description": "Analog input config\\n0: analog input current regulation, input 0 5V corresponds to the range: minimum amps--> default amps note that there is a weak pullup resistor enabled for this input (no input connected--> 5V)\\n\\n1: each blink 1 amp step (default), starts from 0\\n2: each blink 2 amps step, starts from 0\\n3: each blink 3 amps step, starts from 0\\n...\\n10: each blink 10 amps step, starts from 0\\n11: mapping table: registers 2010 2017, 1x blink = value from 2010, 2x blink = value from 2011"
+    },
+    "2004": {
+      "rw": "rw",
+      "default": 0,
+      "description": "Amps settings after power on (applies only to a changes made by the button), whether to save amps settings to eeprom each time it changes or not\\n0: do not save amps value (default)\\n1: save amps value to register 2000 every time it changes"
+    },
+    "2005": {
+      "rw": "rw",
+      "default": 1,
+      "description": "bit0: Enable button for current change (no sense when 2003 = 0)\\n0: disabled\\n1: enabled (default)\\nbit1: Stop charging when button pressed\\n0: disabled (default)\\n1: enabled charging will automatically start after you manually unplug and plug the cable to the vehicle\\nbit2: Pilot ready state LED\\n0: blinks once (default)\\n1: is always ON\\nbit3: enable charging on vehicle status D (ventilation required)\\n0: vehicle status D charging is disabled\\n1: vehicle status D charging iS enabled (default)\\nbit4: enable RCD feedback on MCLR pin (pin 4)\\n0: disabled, no RCD connected (default)\\n1: enabled\\nbit5: auto clear RCD error\\n0: disabled (default, power cycle needed)\\n1: enabled (clear RCD error after <30s min timeout)\\nbit6: AN pullup (rev16 and later)\\n0: AN internal pull-up enabled (default)\\n1: AN internal pull-up disabled\\nbit7: PWM debug bit (rev17 and later)\\n0: PWM debug disabled (default)\\n1: PW debug enable\\nbit8: error LED routing to AN out (rev17 and later)\\n0: disabled (default)\\n1: enabled\\nbit9: pilot auto recover delay (rev17 and later)\\n0: disabled\\n1: enabled (default)\\nbit10-11: reserved\\nbit12: enable startup delay\\nbit13: disable EVSE after charge (write 8192)\\nbit14: disable EVSE (write 16384)\\nbit15: enable bootloader mode (write 32768)"
+    },
+    "2006": {
+      "rw": "rw",
+      "default": 0,
+      "description": "RFU: Current sharing mode is active)\\n(two or more EVSEs connected to a single breaker))\\n0 charging current is half of the default current)\\namps > 0: this amps value will be used"
+    },
+    "2007": {
+      "rw": "rw",
+      "default": 0,
+      "description": "PP detection\\n0: PP detection enabled (default)\\nvalue > O: detection disabled, fixed PP limit entered [A]"
+    },
+    "2008": {
+      "rw": "rw",
+      "default": null,
+      "description": "Reserved"
+    },
+    "2009": {
+      "rw": "r",
+      "default": null,
+      "description": "Bootloader firmware revision"
+    },
+    "2010": {
+      "rw": "rw",
+      "default": 6,
+      "description": "Amps value 1"
+    },
+    "2011": {
+      "rw": "rw",
+      "default": 10,
+      "description": "Amps value 2"
+    },
+    "2012": {
+      "rw": "rw",
+      "default": 16,
+      "description": "Amps value 3"
+    },
+    "2013": {
+      "rw": "rw",
+      "default": 25,
+      "description": "Amps value 4"
+    },
+    "2014": {
+      "rw": "rw",
+      "default": 32,
+      "description": "Amps value 5"
+    },
+    "2015": {
+      "rw": "rw",
+      "default": 48,
+      "description": "Amps value 6"
+    },
+    "2016": {
+      "rw": "rw",
+      "default": 63,
+      "description": "Amps value 7"
+    },
+    "2017": {
+      "rw": "rw",
+      "default": 80,
+      "description": "Amps value 8"
+    }
   }
+}

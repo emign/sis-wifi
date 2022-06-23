@@ -31,6 +31,7 @@ void webserverSetup(){
         Serial.println(error.c_str());
         return;
     }
+    JsonArray registers_json = registers["register"].as<JsonArray>();
     for (JsonObject register_item : registers["register"].as<JsonArray>()) {
         int register_item_address = register_item["address"]; // 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, ...
         const char* register_item_rw = register_item["rw"]; // "rw", "r", "r", "r", "rw", "r", "r", "r", "r", ...
@@ -57,12 +58,16 @@ void webserverSetup(){
 }
 
 void insert_server_handlers(){
-  
 
     //Actual configured amps value (from reg 2002 to 80A)
     server.on("/register/rw/1000", HTTP_GET, [](AsyncWebServerRequest *request) {
 		//request->send(LittleFS, "/index.html", "text/html");
         request->send(200, "text/plain", "TEDKDHJGKDHGK");
+
+     
+
+       
+
 	});
 
      //Actual amps value output 
@@ -166,6 +171,72 @@ void insert_server_handlers(){
 
      //RFU: Current sharing mode is active
     server.on("/register/rw/2006", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //PP Detection
+    server.on("/register/rw/2007", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //reserved
+    server.on("/register/rw/2008", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Bootloader Firmware version
+    server.on("/register/r/2009", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps Value 1
+    server.on("/register/rw/2010", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps Value 2
+    server.on("/register/rw/2011", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps Value 3
+    server.on("/register/rw/2012", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps Value 4
+    server.on("/register/rw/2013", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps Value 5
+    server.on("/register/rw/2014", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps Value 6
+    server.on("/register/rw/2015", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps Value 7
+    server.on("/register/rw/2016", HTTP_GET, [](AsyncWebServerRequest *request) {
+    //request->send(LittleFS, "/index.html", "text/html");
+    request->send(200, "text/plain", "TEDKDHJGKDHGK");
+    });
+
+    //Amps Value 8
+    server.on("/register/rw/2017", HTTP_GET, [](AsyncWebServerRequest *request) {
     //request->send(LittleFS, "/index.html", "text/html");
     request->send(200, "text/plain", "TEDKDHJGKDHGK");
     });
