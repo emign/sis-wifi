@@ -3,6 +3,8 @@
 #include <autoconnect.h> 
 #include <webserver.h> 
 #include <WiFiManager.h>   
+#include <modbus.h>
+#include <ota.h>
 
 
 void setup() {
@@ -10,9 +12,13 @@ void setup() {
   Serial.println("Starting...");  
   autoconnectSetup();
   webserverSetup();
+  ota_setup();
+  modbus_setup();
 }
 
 void loop() {
- 
- 
+  ArduinoOTA.handle();
+  if (!_handlingOTA) {
+    modbus_loop();
+  } 
 }

@@ -3,6 +3,7 @@
 #include <ESPAsyncWebServer.h>
 #include <LittleFS.h>
 #include <ArduinoJson.h>
+//#include <AsyncElegantOTA.h>
 
 #define WIFI_MANAGER_USE_ASYNC_WEB_SERVER
 
@@ -12,6 +13,7 @@ StaticJsonDocument<8192> doc;
 
 
 void webserverSetup(){
+    
     if (!LittleFS.begin()){
         Serial.println("FileSystem could not be mounted.");
         return;
@@ -35,7 +37,8 @@ void webserverSetup(){
         // Create /register?nr=1000 like webhook and generate a JSON answer
         server.on("/register", HTTP_GET, [](AsyncWebServerRequest *request) {     
             if (request->args() == 0)
-                return request->send(400, "text/plain", F("ERROR: Bad or no arguments"));      
+                return request->send(400, "text/plain", F("ERROR: Bad or no arguments"));    
+           
             String register_nr = request->arg("nr");         
             Serial.println("Register nr: " + String(register_nr));
             String rw = request->arg("rw");
@@ -44,6 +47,11 @@ void webserverSetup(){
             AsyncResponseStream *response = request->beginResponseStream("application/json");
             DynamicJsonDocument json(1024);
             
+            if (!request->arg("value").isEmpty()){
+                // VALUE IS SET, WRITE TO REGISTER
+                Serial.println("VALUE IS SET, WRITE TO REGISTER");
+            }
+
             if (doc["registers"].containsKey(register_nr)) {
                 json["nr"] = register_nr;
                 json["rw"] = doc["registers"][register_nr]["rw"];
@@ -65,8 +73,12 @@ void webserverSetup(){
 		request->send(LittleFS, "/index.html", "text/html");
 	});
 
-  
+        server.on("/hallo2", HTTP_GET, [](AsyncWebServerRequest *request) {
+		request->send(LittleFS, "/index.html", "text/html");
+	});
 
+  
+    //AsyncElegantOTA.begin(&server); 
     server.begin();
 }
 
