@@ -4,7 +4,7 @@
 #include <ArduinoJson.h>
 #include <fileSystem.h>
 #include <LittleFS.h>
-#include <json.h>
+
 
 #define WIFI_MANAGER_USE_ASYNC_WEB_SERVER
 static AsyncWebServer server(80);
@@ -12,7 +12,13 @@ StaticJsonDocument<8192> doc;
 
 void webserverSetup(){
     File file = open_file("registers.json", "r");
-    read_json_file_to_doc(file, doc);
+    DeserializationError error = deserializeJson(doc, file);
+    file.close();
+    if (error) {
+        Serial.print(F("deserializeJson() failed: "));
+        Serial.println(error.f_str());
+        return;
+    }
     
 
     for (JsonPair register_item : doc["registers"].as<JsonObject>()) {       
