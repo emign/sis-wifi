@@ -4,6 +4,7 @@
 #include <ArduinoJson.h>
 #include <fileSystem.h>
 #include <LittleFS.h>
+#include <AsyncElegantOTA.h>
 
 
 #define WIFI_MANAGER_USE_ASYNC_WEB_SERVER
@@ -69,7 +70,7 @@ void webserverSetup(){
 	});
 
   
-    //AsyncElegantOTA.begin(&server); 
+    AsyncElegantOTA.begin(&server); 
     server.begin();
 }
 

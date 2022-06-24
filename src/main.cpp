@@ -12,12 +12,12 @@ void setup() {
   Serial.println("Starting...");  
   autoconnectSetup();
   webserverSetup();
-  ota_setup();
+  //ota_setup();
   modbus_setup();
 }
 
 void loop() {
-  ArduinoOTA.handle();
+  //ArduinoOTA.handle();
   if (!_handlingOTA) {
     modbus_loop();
   } 
