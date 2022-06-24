@@ -1,35 +1,22 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <LittleFS.h>
 #include <ArduinoJson.h>
+#include <fileSystem.h>
+#include <LittleFS.h>
+#include <json.h>
 
 #define WIFI_MANAGER_USE_ASYNC_WEB_SERVER
-
 static AsyncWebServer server(80);
-void insert_server_handlers();
 StaticJsonDocument<8192> doc;
 
 
-void webserverSetup(){
-    if (!LittleFS.begin()){
-        Serial.println("FileSystem could not be mounted.");
-        return;
-    }
 
-    // Read registers.json to get the values of the registers
-    File file = LittleFS.open("/registers.json", "r");
-    if (!file) {
-        Serial.println("Failed to open file for reading");
-        return;
-    }
-    DeserializationError error = deserializeJson(doc, file);
-    file.close();
-    if (error) {
-        Serial.print(F("deserializeJson() failed: "));
-        Serial.println(error.f_str());
-        return;
-    }
+
+void webserverSetup(){
+    File file = open_file("registers.json", "r");
+    read_json_file_to_doc(file, doc);
+    
     
     for (JsonPair register_item : doc["registers"].as<JsonObject>()) {       
         // Create /register?nr=1000 like webhook and generate a JSON answer
