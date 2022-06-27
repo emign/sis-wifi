@@ -1,17 +1,30 @@
-#include <ESP8266WiFi.h>
-#include <ESPAsyncTCP.h>
-#include <ESPAsyncWebServer.h>
-#include <ArduinoJson.h>
-#include <fileSystem.h>
-#include <LittleFS.h>
-#include <AsyncElegantOTA.h>
+#include <webserver.h>
 
 
 #define WIFI_MANAGER_USE_ASYNC_WEB_SERVER
+
 static AsyncWebServer server(80);
-StaticJsonDocument<8192> doc;
+DynamicJsonDocument doc(8192);
+DNSServer dns;
+
+void recvMsg(uint8_t *data, size_t len){
+  WebSerial.println("Received Data...");
+  String d = "";
+  for(int i=0; i < len; i++){
+    d += char(data[i]);
+  }
+  WebSerial.println(d);
+}
 
 void webserverSetup(){
+    AsyncWiFiManager wifiManager(&server, &dns);
+    wifiManager.autoConnect("sis wifi");
+    Serial.println("Connected to WiFi " + WiFi.SSID());
+    Serial.println("With IP: " + WiFi.localIP().toString());
+
+    //WebSerial.println("Connected to WiFi " + WiFi.SSID());
+    //WebSerial.println("With IP: " + WiFi.localIP().toString());
+
     File file = open_file("registers.json", "r");
     DeserializationError error = deserializeJson(doc, file);
     file.close();
@@ -27,8 +40,6 @@ void webserverSetup(){
         server.on("/register", HTTP_GET, [](AsyncWebServerRequest *request) {     
             if (request->args() == 0)
                 return request->send(400, "text/plain", F("ERROR: Bad or no arguments"));  
-            
-            
 
             String register_nr  = request->arg("nr");         
             String rw           = request->arg("rw");
@@ -69,7 +80,13 @@ void webserverSetup(){
 		request->send(LittleFS, "/index.html", "text/html");
 	});
 
-  
+            server.on("/hallo32", HTTP_GET, [](AsyncWebServerRequest *request) {
+		request->send(LittleFS, "/index.html", "text/html");
+	});
+
+    WebSerial.begin(&server);
+    /* Attach Message Callback */
+    WebSerial.msgCallback(recvMsg);
     AsyncElegantOTA.begin(&server); 
     server.begin();
 }

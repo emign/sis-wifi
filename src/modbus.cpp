@@ -17,33 +17,27 @@ bool cb(Modbus::ResultCode event, uint16_t transactionId, void* data) { // Callb
 }
 
 void modbus_setup() {
-  //Serial.begin(115200);
- #if defined(ESP8266)
   S.begin(9600, SWSERIAL_8N1);
-  mb.begin(&S);
- #elif defined(ESP32)
-  Serial1.begin(9600, SERIAL_8N1);
-  mb.begin(&Serial1);
- #else
-  Serial1.begin(9600, SERIAL_8N1);
-  mb.begin(&Serial1);
-  mb.setBaudrate(9600);
- #endif
+  mb.begin(&S);  
   mb.master();
 }
 
+uint16_t* read_registers(int nr, int reg_count = 1){
+  uint16_t res[reg_count];
+  if (!mb.slave()){    
+    mb.readHreg(SLAVE_ID, 0, res, reg_count, cb);
+    while(mb.slave()) { // Check if transaction is active
+        mb.task();
+        delay(10);
+      }      
+      Serial.println(res[0]);
+  }
+  return res;
+}
 
 void modbus_loop() {
-  if (!mb.slave()) { 
-    uint16_t res[REG_COUNT];
-    mb.readHreg(SLAVE_ID, 0, res, REG_COUNT, cb);
-   while(mb.slave()) { // Check if transaction is active
-      mb.task();
-      delay(10);
-    }
-    Serial.println(res[0]);
-    Serial.println(res[1]);
-  }
+  read_registers(1000);
   delay(1000);
-
 }
+
+

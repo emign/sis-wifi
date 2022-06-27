@@ -3,3 +3,4 @@
 
 void modbus_loop();
 void modbus_setup();
+int read_registers();

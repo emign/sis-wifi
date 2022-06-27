@@ -1,9 +1,11 @@
-#include <wifi.h>
-#include <WiFiManager.h>   
+#include <ESPAsyncWiFiManager.h>    
+#include <webserver.h>
 
-void autoconnectSetup(){
-  WiFiManager wifiManager;
-  wifiManager.autoConnect("sis wifi");
+#define WM_ASYNC 
+static DNSServer dns;
+
+void autoconnectSetup(){  
+ 
   Serial.println("Connected to WiFi " + WiFi.SSID());
   Serial.println("With IP: " + WiFi.localIP().toString());
 }
