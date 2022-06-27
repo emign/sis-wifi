@@ -22,8 +22,7 @@ void webserverSetup(){
     Serial.println("Connected to WiFi " + WiFi.SSID());
     Serial.println("With IP: " + WiFi.localIP().toString());
 
-    //WebSerial.println("Connected to WiFi " + WiFi.SSID());
-    //WebSerial.println("With IP: " + WiFi.localIP().toString());
+
 
     File file = open_file("registers.json", "r");
     DeserializationError error = deserializeJson(doc, file);
@@ -89,5 +88,7 @@ void webserverSetup(){
     WebSerial.msgCallback(recvMsg);
     AsyncElegantOTA.begin(&server); 
     server.begin();
+    WebSerial.println("Connected to WiFi " + WiFi.SSID());
+    WebSerial.println("With IP: " + WiFi.localIP().toString());
 }
 

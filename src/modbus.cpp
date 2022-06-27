@@ -30,7 +30,8 @@ uint16_t* read_registers(int nr, int reg_count = 1){
         mb.task();
         delay(10);
       }      
-      Serial.println(res[0]);
+      //Serial.println(res[0]);
+       WebSerial.println(res[0]);
   }
   return res;
 }

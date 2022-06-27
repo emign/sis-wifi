@@ -1,8 +1,5 @@
 #include <Arduino.h>
-#include <wifi.h>
-#include <autoconnect.h> 
 #include <webserver.h> 
-#include <ESPAsyncWiFiManager.h>    
 #include <modbus.h>
 
 
@@ -15,6 +12,4 @@ void setup() {
 
 void loop() {  
     modbus_loop();    
-    WebSerial.println("Hello!");
-    delay(2000); 
 }
