@@ -2,10 +2,12 @@
 // SoftwareSerial S(D1, D2, false, 256);
 // receivePin, transmitPin, inverse_logic, bufSize, isrBufSize
 // connect RX to D2 (GPIO4, Arduino pin 4), TX to D1 (GPIO5, Arduino pin 4)
+// TX PIN ist DI am Max485 (blau)
+// RX PIN ist R0 am Max485 (gelb)
 SoftwareSerial S(3, 1); // RX, TX
 
 ModbusRTU mb;
-#define SLAVE_ID 1
+#define SLAVE_ID 2
 
 bool cb(Modbus::ResultCode event, uint16_t transactionId, void* data) { // Callback to monitor errors
   if (event != Modbus::EX_SUCCESS) {
@@ -24,7 +26,7 @@ void modbus_setup() {
 uint16_t* read_registers(int nr, int reg_count = 1){
   uint16_t res[reg_count];
   if (!mb.slave()){    
-    mb.readHreg(SLAVE_ID, 0, res, reg_count, cb);
+    mb.readHreg(SLAVE_ID, nr, res, reg_count, cb);
     while(mb.slave()) { // Check if transaction is active
         mb.task();
         delay(10);
@@ -38,7 +40,7 @@ uint16_t* read_registers(int nr, int reg_count = 1){
 }
 
 void modbus_loop() {
-  read_registers(2002);
+  //read_registers(2013);
  
 }
 

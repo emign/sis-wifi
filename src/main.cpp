@@ -11,5 +11,6 @@ void setup() {
 }
 
 void loop() {  
+    ArduinoOTA.handle();
     modbus_loop();    
 }
