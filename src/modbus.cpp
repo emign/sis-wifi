@@ -2,11 +2,10 @@
 // SoftwareSerial S(D1, D2, false, 256);
 // receivePin, transmitPin, inverse_logic, bufSize, isrBufSize
 // connect RX to D2 (GPIO4, Arduino pin 4), TX to D1 (GPIO5, Arduino pin 4)
-SoftwareSerial S(4, 5); // RX, TX
+SoftwareSerial S(3, 1); // RX, TX
 
 ModbusRTU mb;
 #define SLAVE_ID 1
-#define REG_COUNT 2
 
 bool cb(Modbus::ResultCode event, uint16_t transactionId, void* data) { // Callback to monitor errors
   if (event != Modbus::EX_SUCCESS) {
@@ -31,14 +30,16 @@ uint16_t* read_registers(int nr, int reg_count = 1){
         delay(10);
       }      
       //Serial.println(res[0]);
-       WebSerial.println(res[0]);
+      WebSerial.print("Register " + String(nr) );
+      WebSerial.print(" : ");
+      WebSerial.println(res[0]);
   }
   return res;
 }
 
 void modbus_loop() {
-  read_registers(1000);
-  delay(1000);
+  read_registers(2002);
+ 
 }
 
 

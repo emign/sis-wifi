@@ -90,5 +90,7 @@ void webserverSetup(){
     server.begin();
     WebSerial.println("Connected to WiFi " + WiFi.SSID());
     WebSerial.println("With IP: " + WiFi.localIP().toString());
+    ArduinoOTA.setHostname("sis wifi");
+    ArduinoOTA.begin();
 }
 

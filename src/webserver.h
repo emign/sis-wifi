@@ -8,6 +8,7 @@
 #include <WebSerial.h>
 #include <WiFi.h>
 #include <ESPAsyncWiFiManager.h>   
+#include <ArduinoOTA.h>
 #define WM_ASYNC 
 
 
